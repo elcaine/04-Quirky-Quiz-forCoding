@@ -12,6 +12,10 @@ body {
   background: linear-gradient(0deg, rgba(19,41,61,1) 0%, rgba(237,245,249,1) 63%);
 }
 
+ul {
+  list-style-type: none;
+}
+
 .reset-button {
   font-size: 16px;
   height: 30px;
@@ -84,8 +88,8 @@ section {
   padding: 20px;
 }
 
-.word-blanks {
-  line-height: 360px;
+.question {
+  word-wrap: break-word;
 }
 
 .large-font {
@@ -93,16 +97,17 @@ section {
   text-align:center;
 }
 
-.timer {
+.reg-font {
+  font-size: 1em;
+  text-align:center;
+}
+
+.answers {
   height: 240px;
   padding: 10px;
   background: #13293d;
   color: #fff;
   text-align: center;
-}
-
-.timer-text {
-  padding: 55px;
 }
 
 @media screen and (max-width: 1183px) {
@@ -136,5 +141,41 @@ section {
   .timer {
     height: 200px;
   }
- 
+}
+
+/* using a mobile-first approach, set base column width to be 100% and we'll update it using media queries for larger screen sizes */
+.card-column {
+  flex: 1 0 100%;
+  padding: 1.5rem;
+  /* when the screen resizes, make it so our columns don't jump in size */
+  transition: flex-basis 500ms linear;
+  margin-bottom: 1.5rem;
+}
+
+/* create our main grid with flexbox, use negative margins to offset the padding on the .card-column class */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  margin-left: -1.5rem;
+  margin-right: -1.5rem;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+/* make each code card a flexbox column to align and justify content within it */
+.code-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-height: 100%;
+  padding: 2rem;
+  color: var(--words-blue);
+  background-color: var(--pure-black);
+  /* outline is like border, but on the outside of the box instead of inside */
+  outline: 2px dashed var(--contrast--yellow);
+  outline-offset: -.5rem;
+  transition: all 0.5s ease-in-out;
 }

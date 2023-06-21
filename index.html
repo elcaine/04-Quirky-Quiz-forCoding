@@ -10,30 +10,28 @@
     <header>
       <div class= "large-font">Caine's Quirky Quiz for Coders</div>
       <button class="start-button">Start</button>
+      <h3 id="seconds-left"></h3>
+      <button id="reset-button" class="reset-button">Reset Score</button>
+      <div class = "win-loss-container">
+        <div>
+      <h2>Wins: <span class="win">0 </span> </h2>
+      <h2>Losses: <span class="lose">0</span></h2>
+       </div>
+      </div>
     </header>
 
     <main>
       <section>
         <div class="card word-guess">
-          <div class="large-font word-blanks">J _ v _ S c r_ _t</div>
+          <div class="large-font question">Are you ready to quiz!?</div>
         </div>
       </section>
 
       <section>
-        <div class="card results">
-          <div class = "win-loss-container">
-          <div>
-          <h2>Wins: <span class="win">0 </span> </h2>
-          <h2>Losses: <span class="lose">0</span></h2>
-        </div>
-          <button class="reset-button">Reset Score</button>
-      </div>
-          <div class= "card timer">
-            <div class = "timer-text">
-            <div class="large-font timer-count">10</div>
-            <h3>seconds remaining</h3>
-          </div>
-        
+        <div class="card reuslts">
+          <div class= "card answers">
+              <ul id="answer-buttons">
+              </ul>>
           </div>
         </div>
       </section>
@@ -41,3 +39,6 @@
     <script src="assets/js/script.js"></script>
   </body>
 </html>
+
+
+
