@@ -64,7 +64,6 @@ section {
   flex: 0 auto;
   padding: 8px;
   margin-top: 50px;
-  background-color: white;
   border-radius: 8px;
 }
 
@@ -93,7 +92,7 @@ section {
 }
 
 .large-font {
-  font-size: 3.5em;
+  font-size: 2em;
   text-align:center;
 }
 
@@ -102,28 +101,9 @@ section {
   text-align:center;
 }
 
-.answers {
-  height: 240px;
-  padding: 10px;
-  background: #13293d;
-  color: #fff;
-  text-align: center;
-}
-
-@media screen and (max-width: 1183px) {
+@media screen and (max-width: 700px) {
   main {
     flex-direction: column;
-  }
-
-  .word-guess,
-  .results {
-    width: 90vw;
-  }
-
-  section {
-    background-color: white;
-    margin: 20px auto;
-    width: 92vw;
   }
 }
 
@@ -134,8 +114,7 @@ section {
 
   .reset-button {
     font-size: 12px;
-    width: 20ox;
-    
+    width: 20ox; 
   }
 
   .timer {
@@ -150,15 +129,6 @@ section {
   /* when the screen resizes, make it so our columns don't jump in size */
   transition: flex-basis 500ms linear;
   margin-bottom: 1.5rem;
-}
-
-/* create our main grid with flexbox, use negative margins to offset the padding on the .card-column class */
-.row {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  margin-left: -1.5rem;
-  margin-right: -1.5rem;
 }
 
 .justify-center {

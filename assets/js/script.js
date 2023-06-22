@@ -4,6 +4,7 @@ var startButton = document.querySelector(".start-button");
 var secsLeft = document.getElementById("seconds-left");// This is the text: "seconds left"
 var hideReset = document.getElementById("reset-button");
 var answerButtons = document.getElementById("answer-buttons");
+var answerContainer = document.querySelector(".justify-center");
 
 var score = 0;
 var isWin = false;
@@ -33,6 +34,7 @@ var QandAs;// = JSON.parse(JSON.stringify(QUESTION_BANK));
 
 // The init function is called when the page loads 
 function init() {
+  answerContainer.style.display = "none";
   getWins();
 }
 
@@ -43,6 +45,7 @@ function startGame() {
   timerCount = SET_TIME;
   // Prevents start button from being clicked when round is in progress
   startButton.disabled = true;
+  answerContainer.style.display = "";
   getNextQuestion()
   startTimer()
 }
@@ -54,6 +57,7 @@ function endGame() {
   startButton.disabled = false;
   secsLeft.textContent = "";
   hideReset.style.display = "inline";
+  answerContainer.style.display = "none";
   // Clears interval and stops timer
   clearInterval(timer);
 }
@@ -105,15 +109,13 @@ function getNextQuestion() {
   answerButtons.replaceChildren();
   for(let i = 0; i < ansRay.length; i++){
     //Create elements structures for answers
-    let div = document.createElement("div");
-    let fig = document.createElement("figure");
-    let div2 = document.createElement("div");
+    //let div = document.createElement("div");
+    //let fig = document.createElement("figure");
     let li = document.createElement("li");
     let but = document.createElement("button");
 
-    div.setAttribute("class", "card-column");
-    fig.setAttribute("class", "card code-card");
-    div2.setAttribute("class", "card-body");
+    //div.setAttribute("class", "card-column");
+    //fig.setAttribute("class", "card code-card");
 
     // Answer text set for button
     but.innerHTML = ansRay[i];
