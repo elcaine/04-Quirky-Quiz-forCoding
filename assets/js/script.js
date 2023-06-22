@@ -1,24 +1,17 @@
-var wordBlank = document.querySelector(".question");
+var theQuestion = document.querySelector(".question");
 var win = document.querySelector(".win");
 var startButton = document.querySelector(".start-button");
 var secsLeft = document.getElementById("seconds-left");// This is the text: "seconds left"
 var hideReset = document.getElementById("reset-button");
 var answerButtons = document.getElementById("answer-buttons");
 
-var chosenWord = "";
-var numBlanks = 0;
 var score = 0;
 var isWin = false;
 var timer;
 var timerCount;
-
-// Arrays used to create blanks and letters on screen
-var lettersInChosenWord = [];
-var blanksLetters = [];
-
-// Array of words the user will guess
-var words = ["variable","array", "modulus", "object", "function", "string", "boolean"];
-var QandAs = [
+const SET_TIME = 17;
+// JSON object of questions
+const QUESTION_BANK = [
   { "Q": "Which of these is not a Javascript primitive <and lots and lots and lots and lots and lots and lost of extra words>?",
     "A": ["String", "Undefined", "Boolean", "Null", "BigInt", "Symbol"],
     "Y": "Cow"
@@ -36,17 +29,18 @@ var QandAs = [
     "Y": "Javascript"
   }
 ]
+var QandAs;// = JSON.parse(JSON.stringify(QUESTION_BANK));
 
 // The init function is called when the page loads 
 function init() {
-  //console.log(JSON.stringify(QandAs, null, 3));
   getWins();
 }
 
 // The startGame function is called when the start button is clicked
 function startGame() {
+  QandAs = JSON.parse(JSON.stringify(QUESTION_BANK));
   isWin = false;
-  timerCount = 13;
+  timerCount = SET_TIME;
   // Prevents start button from being clicked when round is in progress
   startButton.disabled = true;
   getNextQuestion()
@@ -55,8 +49,9 @@ function startGame() {
 
 // The winGame function is called when the win condition is met
 function endGame() {
+  answerButtons.replaceChildren();
+  startButton.textContent = "Another game?"
   startButton.disabled = false;
-  startButton.textContent = "Start";
   secsLeft.textContent = "";
   hideReset.style.display = "inline";
   // Clears interval and stops timer
@@ -68,6 +63,8 @@ function endQuestion(isWin) {
   else{ score = score - 2;}
   win.textContent = parseInt(score);
   localStorage.setItem("winCount", score);
+  //Clear previous answers children added to ul element
+  //answerButtons.replaceChildren();
   if(QandAs.length > 0){
     getNextQuestion();
   } else{
@@ -80,7 +77,6 @@ function startTimer() {
   // Sets timer
   timer = setInterval(function() {
     timerCount--;
-    //timerElement.textContent = timerCount;
     startButton.textContent = timerCount;
     secsLeft.textContent = "seconds remaining";
     hideReset.style.display = "none";
@@ -92,8 +88,7 @@ function startTimer() {
 function getNextQuestion() {
   // Get randomized JSON question object
   if(QandAs.length == 0){
-    timerCount = 0;
-    startButton.textContent = "Another game?"
+    endGame();
     return;
   }
   let index = Math.floor(Math.random() * QandAs.length);
@@ -101,9 +96,8 @@ function getNextQuestion() {
   QandAs.splice(index, 1);
   // Get the question, format it, set HTML element
   let str = JSON.stringify(currentQ.Q);
-  str = str.substring(1, str.length-1);//Removes ""
-  wordBlank.textContent = str;
-
+  theQuestion.textContent = str.substring(1, str.length-1);//Removes ""
+  
   // Send answer options and correct answer.  Append correct answer and shuffle.
   let ansRay = shuffleAnswerArray(currentQ.A, currentQ.Y);
 
@@ -148,7 +142,7 @@ function getWins() {
     score = 0;
   } else {
     // If a value is retrieved from client storage set the winCounter to that value
-    score = storedWins;
+    score = parseInt(storedWins);
   }
   //Render win count to page
   win.textContent = score;
@@ -164,9 +158,8 @@ init();
 var resetButton = document.querySelector(".reset-button");
 
 function resetGame() {
-  // Resets win and loss counts
+  // Resets score
   score = 0;
-  // Renders win and loss counts and sets them into client storage
   win.textContent = score;
 }
 // Attaches event listener to button
