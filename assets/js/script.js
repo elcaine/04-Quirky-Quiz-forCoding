@@ -10,7 +10,9 @@ var score;
 var isWin = false;
 var timer;
 var timerCount;
-const SET_TIME = 7;
+var scoreBoard = [];
+var scoreBoardstr;// = localStorage.getItem("scoreBoardstr");
+const SET_TIME = 3;
 // JSON object of questions
 var QandAs;
 const QUESTION_BANK = [
@@ -103,13 +105,8 @@ function getNextQuestion() {
   answerButtons.replaceChildren();
   for(let i = 0; i < ansRay.length; i++){
     //Create elements structures for answers
-    //let div = document.createElement("div");
-    //let fig = document.createElement("figure");
     let li = document.createElement("li");
     let but = document.createElement("button");
-
-    //div.setAttribute("class", "card-column");
-    //fig.setAttribute("class", "card code-card");
 
     // Answer text set for button
     but.innerHTML = ansRay[i];
@@ -131,13 +128,29 @@ function getNextQuestion() {
 
 function submitName() {
   let name = document.getElementById("hiName").value;
-  alert("The form was assimilated: " + name);
+  scoreBoard.push({name, score});
+  //scoreBoard.sort(compare???)
+  localStorage.removeItem("scoreboardstr");
+  localStorage.setItem("scoreBoardstr", JSON.stringify(scoreBoard));
+  let ul = document.createElement("ul");
+  let str = "";
+  scoreBoard.forEach(function(e){
+    let li = document.createElement("li");
+    str = str + e.name + ": " + e.score;
+    li.innerHTML = str;
+    ul.appendChild(li);
+    str = "";
+  })
+  theQuestion.textContent = "";
+  theQuestion.appendChild(ul);
+  alert(localStorage.getItem("scoreBoardstr"));
 }
 
 // The init function is called when the page loads 
 function init() {
   answerContainer.style.display = "none";
   theForm.style.display = "none";
+  scoreBoardstr = localStorage.getItem("scoreBoardstr");
 }
 
 // Attach event listener to start button to call startGame function on click
