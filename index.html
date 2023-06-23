@@ -11,7 +11,16 @@
       <div class= "large-font">Caine's Quirky Quiz for Coders</div>
       <button class="start-button">Start</button>
       <h3 id="seconds-left"></h3>
-      <button id="reset-button" class="reset-button">Reset Score</button>
+
+
+     <!-- Form submisison taken from w3schools:
+          https://www.w3schools.com/tags/ev_onsubmit.asp -->
+      <form onsubmit="submitName();return false" id="name-form">
+        Enter high scorer's name! <input type="text" name="theName" id="hiName">
+        <input type="submit" value="Submit">
+      </form>
+
+
       <div class = "win-loss-container">
         <div>
           <h2>Score: <span class="win">0 </span> </h2>

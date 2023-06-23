@@ -2,16 +2,17 @@ var theQuestion = document.querySelector(".question");
 var win = document.querySelector(".win");
 var startButton = document.querySelector(".start-button");
 var secsLeft = document.getElementById("seconds-left");// This is the text: "seconds left"
-var hideReset = document.getElementById("reset-button");
 var answerButtons = document.getElementById("answer-buttons");
 var answerContainer = document.querySelector(".justify-center");
+var theForm = document.getElementById("name-form");
 
-var score = 0;
+var score;
 var isWin = false;
 var timer;
 var timerCount;
-const SET_TIME = 17;
+const SET_TIME = 7;
 // JSON object of questions
+var QandAs;
 const QUESTION_BANK = [
   { "Q": "Which of these is not a Javascript primitive <and lots and lots and lots and lots and lots and lost of extra words>?",
     "A": ["String", "Undefined", "Boolean", "Null", "BigInt", "Symbol"],
@@ -30,22 +31,18 @@ const QUESTION_BANK = [
     "Y": "Javascript"
   }
 ]
-var QandAs;// = JSON.parse(JSON.stringify(QUESTION_BANK));
-
-// The init function is called when the page loads 
-function init() {
-  answerContainer.style.display = "none";
-  getWins();
-}
 
 // The startGame function is called when the start button is clicked
 function startGame() {
+  score = 0;
+  win.textContent = score;
   QandAs = JSON.parse(JSON.stringify(QUESTION_BANK));
   isWin = false;
   timerCount = SET_TIME;
   // Prevents start button from being clicked when round is in progress
   startButton.disabled = true;
   answerContainer.style.display = "";
+  theForm.style.display = "none";
   getNextQuestion()
   startTimer()
 }
@@ -56,7 +53,7 @@ function endGame() {
   startButton.textContent = "Another game?"
   startButton.disabled = false;
   secsLeft.textContent = "";
-  hideReset.style.display = "inline";
+  theForm.style.display = "";
   answerContainer.style.display = "none";
   // Clears interval and stops timer
   clearInterval(timer);
@@ -65,10 +62,7 @@ function endGame() {
 function endQuestion(isWin) {
   if(isWin){ score = score + 10;}
   else{ score = score - 2;}
-  win.textContent = parseInt(score);
-  localStorage.setItem("winCount", score);
-  //Clear previous answers children added to ul element
-  //answerButtons.replaceChildren();
+  win.textContent = score;
   if(QandAs.length > 0){
     getNextQuestion();
   } else{
@@ -83,7 +77,7 @@ function startTimer() {
     timerCount--;
     startButton.textContent = timerCount;
     secsLeft.textContent = "seconds remaining";
-    hideReset.style.display = "none";
+    //hideReset.style.display = "none";
     if (timerCount === 0) { endGame();}
   }, 1000);
 }
@@ -135,19 +129,15 @@ function getNextQuestion() {
   }
 }
 
-// These functions are used by init
-function getWins() {
-  // Get stored value from client storage, if it exists
-  var storedWins = localStorage.getItem("winCount");
-  // If stored value doesn't exist, set counter to 0
-  if (storedWins === null) {
-    score = 0;
-  } else {
-    // If a value is retrieved from client storage set the winCounter to that value
-    score = parseInt(storedWins);
-  }
-  //Render win count to page
-  win.textContent = score;
+function submitName() {
+  let name = document.getElementById("hiName").value;
+  alert("The form was assimilated: " + name);
+}
+
+// The init function is called when the page loads 
+function init() {
+  answerContainer.style.display = "none";
+  theForm.style.display = "none";
 }
 
 // Attach event listener to start button to call startGame function on click
@@ -155,17 +145,6 @@ startButton.addEventListener("click", startGame);
 
 // Calls init() so that it fires when page opened
 init();
-
-// Bonus: Add reset button
-var resetButton = document.querySelector(".reset-button");
-
-function resetGame() {
-  // Resets score
-  score = 0;
-  win.textContent = score;
-}
-// Attaches event listener to button
-resetButton.addEventListener("click", resetGame);
 
 /*
 *
