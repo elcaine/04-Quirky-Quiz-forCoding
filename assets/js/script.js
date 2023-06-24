@@ -5,7 +5,7 @@ var secsLeft = document.getElementById("seconds-left");// This is the text: "sec
 var answerButtons = document.getElementById("answer-buttons");
 var answerContainer = document.querySelector(".justify-center");
 var theForm = document.getElementById("name-form");
-
+//localStorage.clear();
 var score;
 var isWin = false;
 var timer;
@@ -65,11 +65,8 @@ function endQuestion(isWin) {
   if(isWin){ score = score + 10;}
   else{ score = score - 2;}
   win.textContent = score;
-  if(QandAs.length > 0){
-    getNextQuestion();
-  } else{
-    endGame();
-  }
+  if(QandAs.length > 0){ getNextQuestion();}
+  else{ endGame();}
 }
 
 // The setTimer function starts and stops the timer and triggers winGame() and loseGame()
@@ -128,9 +125,10 @@ function getNextQuestion() {
 
 function submitName() {
   let name = document.getElementById("hiName").value;
+  // scoreBoard (array) is being reset on refresh)...
+  // prolly need to make it the actual LS item saved (not scoreBoardstr)
   scoreBoard.push({name, score});
   //scoreBoard.sort(compare???)
-  localStorage.removeItem("scoreboardstr");
   localStorage.setItem("scoreBoardstr", JSON.stringify(scoreBoard));
   let ul = document.createElement("ul");
   let str = "";
@@ -143,7 +141,7 @@ function submitName() {
   })
   theQuestion.textContent = "";
   theQuestion.appendChild(ul);
-  alert(localStorage.getItem("scoreBoardstr"));
+  console.log("submitName: ", typeof(scoreBoardstr));
 }
 
 // The init function is called when the page loads 
@@ -151,6 +149,14 @@ function init() {
   answerContainer.style.display = "none";
   theForm.style.display = "none";
   scoreBoardstr = localStorage.getItem("scoreBoardstr");
+  if(scoreBoardstr != null){
+    console.log("init: ", scoreBoardstr);
+  } else {
+    console.log("init: NULL");
+  }
+  let tmp = JSON.parse(scoreBoardstr);
+  console.log("more init: ", typeof(tmp));
+  //MAYBE DO SOMETHING W/ ARRAY HERE
 }
 
 // Attach event listener to start button to call startGame function on click
