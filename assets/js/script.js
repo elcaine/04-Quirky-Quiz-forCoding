@@ -125,10 +125,11 @@ function getNextQuestion() {
 
 function submitName() {
   let name = document.getElementById("hiName").value;
-  // scoreBoard (array) is being reset on refresh)...
-  // prolly need to make it the actual LS item saved (not scoreBoardstr)
   scoreBoard.push({name, score});
-  //scoreBoard.sort(compare???)
+  scoreBoard.sort(function(a, b) {
+    console.log("sort: ", a["score"], "  type: ", typeof(a["score"]));
+    return a["score"] - b["score"];
+  });
   localStorage.setItem("scoreBoardstr", JSON.stringify(scoreBoard));
   let ul = document.createElement("ul");
   let str = "";
@@ -151,12 +152,13 @@ function init() {
   scoreBoardstr = localStorage.getItem("scoreBoardstr");
   if(scoreBoardstr != null){
     console.log("init: ", scoreBoardstr);
+    scoreBoard = JSON.parse(scoreBoardstr);
+    console.log("init ray: ", scoreBoard);
   } else {
     console.log("init: NULL");
   }
   let tmp = JSON.parse(scoreBoardstr);
   console.log("more init: ", typeof(tmp));
-  //MAYBE DO SOMETHING W/ ARRAY HERE
 }
 
 // Attach event listener to start button to call startGame function on click
