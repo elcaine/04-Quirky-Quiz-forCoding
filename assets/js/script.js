@@ -5,18 +5,18 @@ var secsLeft = document.getElementById("seconds-left");// This is the text: "sec
 var answerButtons = document.getElementById("answer-buttons");
 var answerContainer = document.querySelector(".justify-center");
 var theForm = document.getElementById("name-form");
-//localStorage.clear();
+//localStorage.clear(); // Uncomment this to refresh via code
 var score;
 var isWin = false;
 var timer;
 var timerCount;
 var scoreBoard = [];
-var scoreBoardstr;// = localStorage.getItem("scoreBoardstr");
-const SET_TIME = 3;
+var scoreBoardstr;
+const SET_TIME = 50;
 // JSON object of questions
 var QandAs;
 const QUESTION_BANK = [
-  { "Q": "Which of these is not a Javascript primitive <and lots and lots and lots and lots and lots and lost of extra words>?",
+  { "Q": "Which of these is not a Javascript primitive ?",
     "A": ["String", "Undefined", "Boolean", "Null", "BigInt", "Symbol"],
     "Y": "Cow"
   },
@@ -31,6 +31,22 @@ const QUESTION_BANK = [
   { "Q": "Which of these is considered the 'operations' of website construction?",
     "A": ["HTML", "CSS", "C++"],
     "Y": "Javascript"
+  },
+  { "Q": "What does JSON stand for?",
+    "A": ["Junior Scripted Object Notes", "Javascript On Node", "Really wrong answer"],
+    "Y": "Javascript Object Notation"
+  },
+  { "Q": "Simple difference between == and ===?",
+    "A": ["== asigns, === interprets", "=== assigns, == interprets", "No difference"],
+    "Y": "== values evaluated, === values AND type evaluated"
+  },
+  { "Q": "Which characters are used specifically to define a scope block?",
+    "A": ["''", "[]", ";"],
+    "Y": "{}"
+  },
+  { "Q": "What storage function have we learned about that persistently store a web session's data?",
+    "A": ["save", "remember", "push"],
+    "Y": "localStorage"
   }
 ]
 
@@ -43,14 +59,18 @@ function startGame() {
   timerCount = SET_TIME;
   // Prevents start button from being clicked when round is in progress
   startButton.disabled = true;
+  // Resets (or sets initally) display properties
   answerContainer.style.display = "";
   theForm.style.display = "none";
+  theQuestion.style.display = "";
   getNextQuestion()
   startTimer()
 }
 
 // The winGame function is called when the win condition is met
 function endGame() {
+  // Resets display properties
+  theQuestion.style.display = "none";
   answerButtons.replaceChildren();
   startButton.textContent = "Another game?"
   startButton.disabled = false;
@@ -62,10 +82,12 @@ function endGame() {
 }
 
 function endQuestion(isWin) {
-  if(isWin){ score = score + 10;}
-  else{ score = score - 2;}
+  if(!isWin){ 
+    score = score - 2;
+    timerCount = timerCount - 10;
+  } else{ score = score + 10;}
   win.textContent = score;
-  if(QandAs.length > 0){ getNextQuestion();}
+  if(QandAs.length > 0 && timerCount > 0){ getNextQuestion();}
   else{ endGame();}
 }
 
@@ -77,7 +99,7 @@ function startTimer() {
     startButton.textContent = timerCount;
     secsLeft.textContent = "seconds remaining";
     //hideReset.style.display = "none";
-    if (timerCount === 0) { endGame();}
+    if (timerCount < 1) { endGame();}
   }, 1000);
 }
 
@@ -124,13 +146,22 @@ function getNextQuestion() {
 }
 
 function submitName() {
+  // Resets display properties
+  theQuestion.textContent = "";
+  theForm.style.display = "none";
+  // Capture name/score logic
   let name = document.getElementById("hiName").value;
+  if(name === ""){ name = "[no entry]";}
   scoreBoard.push({name, score});
+  // Sorts score board, then reverses for higher score on top
   scoreBoard.sort(function(a, b) {
     console.log("sort: ", a["score"], "  type: ", typeof(a["score"]));
     return a["score"] - b["score"];
   });
+  scoreBoard.reverse();
+  // Store persisted score board
   localStorage.setItem("scoreBoardstr", JSON.stringify(scoreBoard));
+  // Create/append/display score board logic
   let ul = document.createElement("ul");
   let str = "";
   scoreBoard.forEach(function(e){
@@ -140,9 +171,8 @@ function submitName() {
     ul.appendChild(li);
     str = "";
   })
-  theQuestion.textContent = "";
   theQuestion.appendChild(ul);
-  console.log("submitName: ", typeof(scoreBoardstr));
+  theQuestion.style.display = "";
 }
 
 // The init function is called when the page loads 
@@ -150,15 +180,8 @@ function init() {
   answerContainer.style.display = "none";
   theForm.style.display = "none";
   scoreBoardstr = localStorage.getItem("scoreBoardstr");
-  if(scoreBoardstr != null){
-    console.log("init: ", scoreBoardstr);
-    scoreBoard = JSON.parse(scoreBoardstr);
-    console.log("init ray: ", scoreBoard);
-  } else {
-    console.log("init: NULL");
-  }
-  let tmp = JSON.parse(scoreBoardstr);
-  console.log("more init: ", typeof(tmp));
+  if(scoreBoardstr != null){ scoreBoard = JSON.parse(scoreBoardstr);}
+  else { console.log("init: NULL");}
 }
 
 // Attach event listener to start button to call startGame function on click
@@ -170,6 +193,7 @@ init();
 /*
 *
 * Array shuffling algorithms taken from previous work done by the auther of this code.
+* (includes 'randomat()' helper function further below).
 * Repo link:  https://github.com/discodamone/Input_Golf
 *
 */
