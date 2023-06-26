@@ -1,18 +1,18 @@
 var theQuestion = document.querySelector(".question");
 var win = document.querySelector(".win");
 var startButton = document.querySelector(".start-button");
+var resetButton = document.querySelector(".reset-button");
 var secsLeft = document.getElementById("seconds-left");// This is the text: "seconds left"
 var answerButtons = document.getElementById("answer-buttons");
 var answerContainer = document.querySelector(".justify-center");
 var theForm = document.getElementById("name-form");
-//localStorage.clear(); // Uncomment this to refresh via code
 var score;
 var isWin = false;
 var timer;
 var timerCount;
 var scoreBoard = [];
 var scoreBoardstr;
-const SET_TIME = 50;
+const SET_TIME = 13;
 // JSON object of questions
 var QandAs;
 const QUESTION_BANK = [
@@ -62,21 +62,33 @@ function startGame() {
   // Resets (or sets initally) display properties
   answerContainer.style.display = "";
   theForm.style.display = "none";
+  resetButton.style.display = "none";
   theQuestion.style.display = "";
   getNextQuestion()
   startTimer()
 }
 
+// Resets score board
+function resetGame() {
+  scoreBoard= [];
+  scoreBoardstr = localStorage.getItem("scoreBoardstr");
+  localStorage.setItem("scoreBoardstr", JSON.stringify(scoreBoard));
+  showScoreboard();
+}
+
 // The winGame function is called when the win condition is met
 function endGame() {
   // Resets display properties
+  theQuestion.textContent = "";
   theQuestion.style.display = "none";
   answerButtons.replaceChildren();
   startButton.textContent = "Another game?"
   startButton.disabled = false;
   secsLeft.textContent = "";
   theForm.style.display = "";
+  resetButton.style.display = "";
   answerContainer.style.display = "none";
+  showScoreboard();
   // Clears interval and stops timer
   clearInterval(timer);
 }
@@ -160,7 +172,12 @@ function submitName() {
   scoreBoard.reverse();
   // Store persisted score board
   localStorage.setItem("scoreBoardstr", JSON.stringify(scoreBoard));
+  showScoreboard();
+}
+
+function showScoreboard (){
   // Create/append/display score board logic
+  theQuestion.textContent = "";
   let ul = document.createElement("ul");
   let str = "";
   scoreBoard.forEach(function(e){
@@ -178,6 +195,7 @@ function submitName() {
 function init() {
   answerContainer.style.display = "none";
   theForm.style.display = "none";
+  resetButton.style.display = "none";
   scoreBoardstr = localStorage.getItem("scoreBoardstr");
   if(scoreBoardstr != null){ scoreBoard = JSON.parse(scoreBoardstr);}
   else { console.log("init: NULL");}
@@ -185,6 +203,7 @@ function init() {
 
 // Attach event listener to start button to call startGame function on click
 startButton.addEventListener("click", startGame);
+resetButton.addEventListener("click", resetGame);
 
 // Calls init() so that it fires when page opened
 init();

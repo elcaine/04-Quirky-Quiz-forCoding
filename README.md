@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # 04-Quirky-Quiz-for-Coding :smile:
+=======
+# 04-Quirky-Quiz-for-Coding :rofl:
+>>>>>>> 0c96d7fe6b6250ed3b3d127b5746345b3bf3ee14
 ## By Caine Winters
 
 
@@ -19,5 +23,9 @@
 - Game timer starts with 50 seconds.
 
 ### Acknowledged sources
+<<<<<<< HEAD
 - Base style and framework taken from previous assignement in this class.
 - Noted toward the end of script.js file:  randomizing array algorithm/logic taken from previous work done this code's author outside of this class.
+=======
+Noted toward the end of script.js file:  randomizing array algorithm/logic taken from previous work done this code's author.
+>>>>>>> 0c96d7fe6b6250ed3b3d127b5746345b3bf3ee14
