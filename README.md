@@ -5,7 +5,7 @@
 ### Screenshot of initial landing page for game.
 ![Screenshot of initial landing page for game.](./assets/img/404.jpg)
 
-### [Link to finished product](https://elcaine.github.io/XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/)
+### [Link to finished product](https://elcaine.github.io/04-Quirky-Quiz-forCoding//)
 
 ### Game mechanics
 - Start button will, from initial landing page and/or after a completed game, start a new game.

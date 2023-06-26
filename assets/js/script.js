@@ -131,7 +131,8 @@ function getNextQuestion() {
     but.innerHTML = ansRay[i];
 
     li.appendChild(but);
-    li.setAttribute("id", "question-" + i);
+    let idTxt = "question-" + i;
+    li.setAttribute("id", idTxt);
     if(ansRay[i] == currentQ.Y){
       but.addEventListener("click", () =>{
         endQuestion(true);
@@ -141,6 +142,7 @@ function getNextQuestion() {
         endQuestion(false);
       });
     }
+    if(ansRay[i].length > 12){ li.setAttribute("style", "font-size:8px;");}
     answerButtons.appendChild(li);
   }
 }
@@ -154,10 +156,7 @@ function submitName() {
   if(name === ""){ name = "[no entry]";}
   scoreBoard.push({name, score});
   // Sorts score board, then reverses for higher score on top
-  scoreBoard.sort(function(a, b) {
-    console.log("sort: ", a["score"], "  type: ", typeof(a["score"]));
-    return a["score"] - b["score"];
-  });
+  scoreBoard.sort(function(a, b) { return a["score"] - b["score"];});
   scoreBoard.reverse();
   // Store persisted score board
   localStorage.setItem("scoreBoardstr", JSON.stringify(scoreBoard));
@@ -193,7 +192,7 @@ init();
 /*
 *
 * Array shuffling algorithms taken from previous work done by the auther of this code.
-* (includes 'randomat()' helper function further below).
+* (includes 'randomate()' helper function further below).
 * Repo link:  https://github.com/discodamone/Input_Golf
 *
 */
