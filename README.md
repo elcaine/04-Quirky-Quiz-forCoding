@@ -1,10 +1,12 @@
-# 04-Quirky-Quiz-for-Coding
+# 04-Quirky-Quiz-for-Coding :smile:
 ## By Caine Winters
 
 
 ### Screenshot of initial landing page for game.
 ![Screenshot of initial landing page for game.](./assets/img/404.jpg)
 
+## Links
+### [Link to repo](https://github.com/elcaine/04-Quirky-Quiz-forCoding)
 ### [Link to finished product](https://elcaine.github.io/04-Quirky-Quiz-forCoding//)
 
 ### Game mechanics
@@ -17,4 +19,5 @@
 - Game timer starts with 50 seconds.
 
 ### Acknowledged sources
-Noted toward the end of script.js file:  randomizing array algorithm/logic taken from previous work done this code's author.
+- Base style and framework taken from previous assignement in this class.
+- Noted toward the end of script.js file:  randomizing array algorithm/logic taken from previous work done this code's author outside of this class.
