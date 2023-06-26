@@ -12,7 +12,7 @@ var timer;
 var timerCount;
 var scoreBoard = [];
 var scoreBoardstr;
-const SET_TIME = 13;
+const SET_TIME = 50;
 // JSON object of questions
 var QandAs;
 const QUESTION_BANK = [
